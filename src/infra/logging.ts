@@ -1,0 +1,31 @@
+import { config } from '../../config/env';
+
+type LogLevel = 'debug' | 'info' | 'warn' | 'error';
+
+const levels: Record<LogLevel, number> = { debug: 0, info: 1, warn: 2, error: 3 };
+
+function shouldLog(level: LogLevel): boolean {
+  const configLevel = (config.logLevel as LogLevel) ?? 'info';
+  return levels[level] >= levels[configLevel];
+}
+
+function formatMessage(level: LogLevel, message: string, meta?: object): string {
+  const ts = new Date().toISOString();
+  const metaStr = meta ? ` ${JSON.stringify(meta)}` : '';
+  return `[${ts}] [${level.toUpperCase()}] ${message}${metaStr}`;
+}
+
+export const logger = {
+  debug(message: string, meta?: object): void {
+    if (shouldLog('debug')) console.debug(formatMessage('debug', message, meta));
+  },
+  info(message: string, meta?: object): void {
+    if (shouldLog('info')) console.info(formatMessage('info', message, meta));
+  },
+  warn(message: string, meta?: object): void {
+    if (shouldLog('warn')) console.warn(formatMessage('warn', message, meta));
+  },
+  error(message: string, meta?: object): void {
+    if (shouldLog('error')) console.error(formatMessage('error', message, meta));
+  },
+};
