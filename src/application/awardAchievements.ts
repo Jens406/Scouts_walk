@@ -18,12 +18,12 @@ export function awardAchievements(userId: string, unlock: MilestoneUnlock): void
     })
     .filter((t): t is BadgeType => t !== undefined);
 
-  const achievement = awardBadgeOnMilestone(userId, unlock, milestone.type, existingBadgeTypes as BadgeType[]);
+  const achievement = awardBadgeOnMilestone(userId, unlock, milestone.type, existingBadgeTypes);
   if (achievement) {
     db.achievements.set(achievement.id, achievement);
     const user = userRepo.findById(userId);
     if (user) {
-      const badge = Array.from(db.achievements.values()).find(a => a.id === achievement.badgeId);
+      const badge = getBadgeCatalog().find(b => b.id === achievement.badgeId);
       if (badge) {
         userRepo.save({ ...user, badges: [...user.badges, achievement.badgeId], updatedAt: new Date() });
       }
