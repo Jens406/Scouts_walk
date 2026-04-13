@@ -8,9 +8,10 @@ export interface UserDTO {
   role: string;
   areasOfInterest: string[];
   totalSteps: number;
-  xp: number;
+  totalXP: number;
   badges: string[];
   teamId?: string;
+  avatarUrl?: string;
   createdAt: string;
   updatedAt: string;
 }

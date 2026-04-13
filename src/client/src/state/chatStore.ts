@@ -49,8 +49,9 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   subscribeToChannel: (channelId) => {
     if (get().subscribedChannels.has(channelId)) return;
     const sock = getSocket();
-    sock.emit('join', channelId);
-    sock.on(`message:${channelId}`, (msg: ChatMessageDTO) => {
+    sock.emit('join-channel', channelId);
+    sock.on('new-message', (msg: ChatMessageDTO) => {
+      if (msg.channelId !== channelId) return;
       set((s) => {
         const existing = s.messages[channelId] ?? [];
         if (existing.some((m) => m.id === msg.id)) return s;

@@ -24,22 +24,22 @@ export default function FriendsAlongRoute({ routeId }: { routeId: string }) {
       });
     }
 
-    socket.emit('subscribe:route', routeId);
+    socket.emit('join-route', routeId);
 
-    socket.on('progress:update', (data: { routeId: string; userId: string; progress: number; username?: string }) => {
+    socket.on('progress-update', (data: { routeId: string; userId: string; progressPercent: number }) => {
       if (data.routeId !== routeId || data.userId === user?.id) return;
       setFriends((prev) => {
         const existing = prev.find((f) => f.userId === data.userId);
         if (existing) {
           return prev.map((f) =>
-            f.userId === data.userId ? { ...f, progressPercent: data.progress } : f
+            f.userId === data.userId ? { ...f, progressPercent: data.progressPercent } : f
           );
         }
         return [...prev, {
           userId: data.userId,
-          username: data.username ?? data.userId,
-          displayName: data.username ?? data.userId,
-          progressPercent: data.progress,
+          username: data.userId,
+          displayName: data.userId,
+          progressPercent: data.progressPercent,
         }];
       });
     });

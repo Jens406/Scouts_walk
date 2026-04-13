@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { useRouteStore } from '../state/routeStore';
 
-interface Props {
-  totalSteps?: number;
-}
-
-export default function RouteProgressBar({ totalSteps }: Props) {
+export default function RouteProgressBar() {
   const { activeRoute, logSteps } = useRouteStore();
   const [steps, setSteps] = useState('');
   const [logging, setLogging] = useState(false);
@@ -24,7 +20,7 @@ export default function RouteProgressBar({ totalSteps }: Props) {
       setMsg(`✅ Logged ${n} steps!`);
       setSteps('');
       setTimeout(() => setMsg(''), 3000);
-    } catch (e) {
+    } catch {
       setMsg('❌ Failed to log steps');
     } finally {
       setLogging(false);
@@ -40,9 +36,6 @@ export default function RouteProgressBar({ totalSteps }: Props) {
       </div>
       <div className="progress-stats">
         <span>📏 {activeRoute.completedDistanceKm.toFixed(2)} / {activeRoute.totalDistanceKm.toFixed(2)} km</span>
-        {(totalSteps ?? activeRoute.totalSteps) > 0 && (
-          <span>👣 {(totalSteps ?? activeRoute.totalSteps).toLocaleString()} steps</span>
-        )}
       </div>
       <div className="log-steps-row">
         <input

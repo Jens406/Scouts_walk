@@ -12,12 +12,12 @@ export interface RouteDTO {
   name: string;
   start: LatLng;
   destination: LatLng;
-  waypoints: LatLng[];
-  communities: CommunityRef[];
+  communities: string[];
+  poiIds: string[];
+  milestoneIds: string[];
   totalDistanceKm: number;
   completedDistanceKm: number;
   progressPercent: number;
-  totalSteps: number;
   status: 'planned' | 'active' | 'completed';
   createdAt: string;
   updatedAt: string;

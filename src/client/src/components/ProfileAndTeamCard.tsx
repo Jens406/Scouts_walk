@@ -36,7 +36,7 @@ export default function ProfileAndTeamCard() {
           <span className="stat-label">👣 Steps</span>
         </div>
         <div className="stat-item">
-          <span className="stat-value">{user.xp}</span>
+          <span className="stat-value">{user.totalXP}</span>
           <span className="stat-label">⭐ XP</span>
         </div>
       </div>
