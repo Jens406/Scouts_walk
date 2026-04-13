@@ -10,6 +10,7 @@ import stepsRoutes from './api/routes/stepsRoutes';
 import milestoneRoutes from './api/routes/milestoneRoutes';
 import chatRoutes from './api/routes/chatRoutes';
 import { logger } from './infra/logging';
+import { defaultLimiter, authLimiter } from './infra/rateLimiter';
 
 export function createApp(): express.Application {
   const app = express();
@@ -17,6 +18,9 @@ export function createApp(): express.Application {
   app.use(helmet());
   app.use(cors());
   app.use(express.json());
+
+  app.use('/api/auth', authLimiter);
+  app.use('/api', defaultLimiter);
 
   app.get('/health', (_req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });

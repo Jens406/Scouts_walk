@@ -1,3 +1,5 @@
+import { logger } from '../logging';
+
 export interface MapTile {
   url: string;
   attribution: string;
@@ -19,7 +21,7 @@ export const mapProvider = {
 
   async geocode(query: string): Promise<GeocodingResult | null> {
     // Stub: In production, call a real geocoding API
-    console.info(`[MapProvider] Geocoding: ${query}`);
+    logger.info(`[MapProvider] Geocoding: ${query}`);
     return null;
   },
 };

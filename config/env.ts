@@ -6,3 +6,7 @@ export const config = {
   logLevel: process.env.LOG_LEVEL ?? 'info',
   nodeEnv: process.env.NODE_ENV ?? 'development',
 };
+
+if (config.nodeEnv === 'production' && !process.env.JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable must be set in production');
+}
